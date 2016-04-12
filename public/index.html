@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div id="view">
+  </div>
+</body>
+<script src="app.js"></script>
+<script>
+  //model
+  var source = IceFlow({
+    count:1,
+    a:{b:{c:{count:1}}}
+  });
+
+  //View
+  var view = document.getElementById("view");
+  var render = function(state){
+    view.innerHTML = "Shallow Counter:"+state.count+'<button id="up">+</button><button id="down">-</button><br>'+
+    "Deep Counter:"+state.a.b.c.count+'<button id="deepUp">+</button><button id="deepdown">-</button>'+
+    '<br><button id="shutdown">Shutdown</button>';
+    view.querySelector("#up").addEventListener("click", function(){
+      source.action("increment")
+    })
+    view.querySelector("#down").addEventListener("click", function(){
+      source.action("decrement")
+    })
+    view.querySelector("#shutdown").addEventListener("click", function(){
+      source.action("shutdown")
+    })
+    view.querySelector("#deepUp").addEventListener("click", function(){
+      source.action("deepincrement")
+    })
+    view.querySelector("#deepdown").addEventListener("click", function(){
+      source.action("deepdecrement")
+    })
+  }
+
+  source("state").subscribe(function(state){
+    render(state)
+  })
+  render(source.getState())
+
+  //Update
+
+  //these actions receive full state
+  var inc = source("increment").subscribe(function(action){
+    action.state.set("count",action.state.count+1)
+  })
+  var dec = source("decrement").subscribe(function(action){
+    action.state.set("count",action.state.count-1)
+  })
+  source("shutdown").subscribe(function(action){
+    inc.dispose();
+    dec.dispose();
+  })
+
+  var stateTransform = (a)=>a.state.a.b.c;
+  source("deepincrement",stateTransform)
+  .subscribe(function(action){
+    action.state.set("count",action.state.count+1)
+  })
+  source("deepdecrement",stateTransform)
+  .subscribe(function(action){
+    action.state.set("count",action.state.count-1)
+  })
+</script>
+</html>

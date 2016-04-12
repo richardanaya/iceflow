@@ -22,7 +22,7 @@ module.exports = {
   entry: path.resolve('src', 'main.js'),
   output: {
     path: path.resolve('public'),
-    filename: 'app.js',
+    filename: 'iceflow.js',
     publicPath: '/'
   },
   plugins: [

@@ -22,18 +22,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import IceFlow from 'iceflow';
 
+//Model
 var store = IceFlow({
   count:0
 })
 
-store("increment").subscribe(({state})=>{
-  state.set("count",state.count+1);
-})
-
-store("decrement").subscribe(({state})=>{
-  state.set("count",state.count-1);
-})
-
+//View
 function HelloWorld (props) {
   return (
     <div>
@@ -49,11 +43,21 @@ function render(state){
   ReactDOM.render(<HelloWorld state={state}/>, document.body);
 }
 
+render(store.getState())
+
+//Update
 store("state").subscribe(function(state){
   render(state)
 })
 
-render(store.getState())
+store("increment").subscribe(({state})=>{
+  state.set("count",state.count+1);
+})
+
+store("decrement").subscribe(({state})=>{
+  state.set("count",state.count-1);
+})
+
 ```
 
 # Install

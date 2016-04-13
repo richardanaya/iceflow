@@ -28,8 +28,8 @@ function HelloWorld (props) {
     <div>
       <h1>Counter</h1>
       {props.state.count}
-      <button onClick={()=>store.action("increment")}>+</button>
-      <button onClick={()=>store.action("decrement")}>-</button>
+      <button onClick={()=>store.dispatch({type:"increment")}}>+</button>
+      <button onClick={()=>store.dispatch({type:"decrement")})}>-</button>
     </div>
   );
 }

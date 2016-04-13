@@ -13,7 +13,7 @@
 <script src="iceflow.js"></script>
 <script>
   //model
-  var source = IceFlow({
+  var store = IceFlow({
     count:1,
     a:{b:{c:{count:1}}}
   });
@@ -25,47 +25,48 @@
     "Deep Counter:"+state.a.b.c.count+'<button id="deepUp">+</button><button id="deepdown">-</button>'+
     '<br><button id="shutdown">Shutdown</button>';
     view.querySelector("#up").addEventListener("click", function(){
-      source.action("increment")
+      store.dispatch({type:"increment"})
     })
     view.querySelector("#down").addEventListener("click", function(){
-      source.action("decrement")
+      store.dispatch({type:"decrement"})
     })
     view.querySelector("#shutdown").addEventListener("click", function(){
-      source.action("shutdown")
+      store.dispatch({type:"shutdown"})
     })
     view.querySelector("#deepUp").addEventListener("click", function(){
-      source.action("deepincrement")
+      store.dispatch({type:"deepincrement"})
     })
     view.querySelector("#deepdown").addEventListener("click", function(){
-      source.action("deepdecrement")
+      store.dispatch({type:"deepdecrement"})
     })
   }
 
-  source("state").subscribe(function(state){
+  store("state").subscribe(function(state){
     render(state)
   })
-  render(source.getState())
+  render(store.getState())
 
   //Update
 
   //these actions receive full state
-  var inc = source("increment").subscribe(function(action){
-    action.state.set("count",action.state.count+1)
+  var inc = store("increment").subscribe(({state})=>{
+    state.set("count",state.count+1)
   })
-  var dec = source("decrement").subscribe(function(action){
+  var dec = store("decrement").subscribe(function(action){
     action.state.set("count",action.state.count-1)
   })
-  source("shutdown").subscribe(function(action){
+
+  store("shutdown").subscribe(function(action){
     inc.dispose();
     dec.dispose();
   })
 
   var stateTransform = (a)=>a.state.a.b.c;
-  source("deepincrement",stateTransform)
+  store("deepincrement",stateTransform)
   .subscribe(function(action){
     action.state.set("count",action.state.count+1)
   })
-  source("deepdecrement",stateTransform)
+  store("deepdecrement",stateTransform)
   .subscribe(function(action){
     action.state.set("count",action.state.count-1)
   })

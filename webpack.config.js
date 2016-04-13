@@ -18,7 +18,7 @@ var loaders = [
 ];
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'none',
   entry: path.resolve('src', 'main.js'),
   output: {
     path: path.resolve('public'),
@@ -26,7 +26,7 @@ module.exports = {
     publicPath: '/'
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    //new webpack.optimize.UglifyJsPlugin({minimize: true}),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('"production"')

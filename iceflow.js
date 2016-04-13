@@ -24,8 +24,8 @@
         });
       }
     }
-    f.action = function(type,params){
-      eventbus.publish(type,{state:state,params:params})
+    f.dispatch = function(o){
+      eventbus.publish(o.type,Object.assign({state:state},o))
     };
     f.getState = function(){
       return state;

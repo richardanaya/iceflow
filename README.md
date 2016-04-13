@@ -15,7 +15,7 @@ This application is heavily inspired from Redux, RxJS and Freezer.js and feature
 * History can easily be implemented by storing past immutable states
 * Action-listener subscriptions are disposable allowing dynamic behavior
 
-# Example
+# Counter Example
 
 ```jsx
 import React from 'react';

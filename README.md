@@ -46,7 +46,7 @@ function HelloWorld (props) {
 }
 
 function render(state){
-  ReactDOM.render(<HelloWorld state={state}/>, document.querySelector('#app'));
+  ReactDOM.render(<HelloWorld state={state}/>, document.body);
 }
 
 store("state").subscribe(function(state){

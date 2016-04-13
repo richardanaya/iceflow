@@ -1,6 +1,13 @@
 # IceFlow
 
-IceFlow is a predictable state container for JavaScript inspired from Redux, RxJS and Freezer.js. It features the best of these libraries:
+IceFlow is a predictable state container for JavaScript. This library is great if you:
+
+* Like a singular global state
+* Like your data immutable
+* Like dataflow architecture
+
+This application is heavily inspired from Redux, RxJS and Freezer.js and features the best of these libraries:
+
 * State exists in a single global store
 * All state received from the store is immutable
 * Requests to change the immutable state can be made at any point

@@ -1,6 +1,6 @@
 # IceFlow
 
-IceFlow is a global data store inspired from Redux, RxJS and Freezer.js.
+IceFlow is a predictable state container for JavaScript inspired from Redux, RxJS and Freezer.js.
 
 # Example
 

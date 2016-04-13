@@ -14,13 +14,13 @@ var store = IceFlow({
 });
 
 store("increment")
-.subscribe((action)=>{
-  action.state.set("count",action.state.count+1);
+.subscribe(({state})=>{
+  state.set("count",state.count+1);
 });
 
 store("decrement")
-.subscribe((action)=>{
-  action.state.set("count",action.state.count-1);
+.subscribe(({state})=>{
+  state.set("count",state.count-1);
 });
 
 function HelloWorld (props) {

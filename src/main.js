@@ -27,6 +27,9 @@
     f.dispatch = function(o){
       eventbus.publish(o.type,Object.assign({state:state},o))
     };
+    f.setState = function(state){
+      return freezer.set(state);
+    };
     f.getState = function(){
       return state;
     };

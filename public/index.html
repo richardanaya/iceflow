@@ -70,5 +70,10 @@
   .subscribe(function(action){
     action.state.set("count",action.state.count-1)
   })
+
+  store.setState({
+    count:123,
+    a:{b:{c:{count:1}}}
+  });
 </script>
 </html>

@@ -11,7 +11,7 @@ This application is heavily inspired from Redux, RxJS and Freezer.js and feature
 * State exists in a single global store
 * All state received from the store is immutable
 * Requests to change the immutable state can be made at any point
-* Action-listeners are observables with all the power of RxJS data flow
+* Action-listeners are observables with all the power of RxJS data flow operations (map,reduce,filter,etc.)
 * History can easily be implemented by storing past immutable states
 * Action-listener subscriptions are disposable allowing dynamic behavior
 

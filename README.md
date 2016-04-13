@@ -13,13 +13,11 @@ var store = IceFlow({
   count:0
 })
 
-store("increment")
-.subscribe(({state})=>{
+store("increment").subscribe(({state})=>{
   state.set("count",state.count+1);
 })
 
-store("decrement")
-.subscribe(({state})=>{
+store("decrement").subscribe(({state})=>{
   state.set("count",state.count-1);
 })
 

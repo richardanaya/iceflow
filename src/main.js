@@ -9,7 +9,7 @@
     var freezer = new Freezer(data);
     var eventbus = pubsub.create();
     freezer.on('update', function( newState ){
-      eventbus.publish("state",);
+      eventbus.publish("state");
     });
     var f =  function(name){
       return eventbus(name);

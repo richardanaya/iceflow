@@ -20,7 +20,8 @@
 
   //View
   var view = document.getElementById("view");
-  var render = function(state){
+  var render = function(){
+    var state = store.getState();
     view.innerHTML = "Shallow Counter:"+state.count+'<button id="up">+</button><button id="down">-</button><br>'+
     "Deep Counter:"+state.a.b.c.count+'<button id="deepUp">+</button><button id="deepdown">-</button>'+
     '<br><button id="shutdown">Shutdown</button>';
@@ -41,34 +42,31 @@
     })
   }
 
-  store("state").subscribe(function(state){
-    render(state)
-  })
-  render(store.getState())
+  render()
+  store("state").subscribe(render)
 
   //Update
-
-  //these actions receive full state
-  var inc = store("increment").subscribe(({state})=>{
+  var inc = store("increment").subscribe(()=>{
+    var state = store.getState();
     state.set("count",state.count+1)
   })
-  var dec = store("decrement").subscribe(function(action){
-    action.state.set("count",action.state.count-1)
+  var dec = store("decrement").subscribe(()=>{
+    var state = store.getState();
+    state.set("count",state.count-1)
   })
 
-  store("shutdown").subscribe(function(action){
+  store("shutdown").subscribe(()=>{
     inc.dispose();
     dec.dispose();
   })
 
-  var stateTransform = (a)=>a.state.a.b.c;
-  store("deepincrement",stateTransform)
-  .subscribe(function(action){
-    action.state.set("count",action.state.count+1)
+  store("deepincrement").subscribe(function(action){
+    var state = store.getState().a.b.c;
+    state.set("count",state.count+1)
   })
-  store("deepdecrement",stateTransform)
-  .subscribe(function(action){
-    action.state.set("count",action.state.count-1)
+  store("deepdecrement").subscribe(function(action){
+    var state = store.getState().a.b.c;
+    state.set("count",state.count-1)
   })
 
   store.setState({

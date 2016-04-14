@@ -7,31 +7,21 @@
 
   var IceFlow = function(data){
     var freezer = new Freezer(data);
-    var state = freezer.get();
     var eventbus = pubsub.create();
     freezer.on('update', function( newState ){
-      state = newState;
-      eventbus.publish("state",state);
+      eventbus.publish("state",);
     });
-    var f =  function(name,stateTransformer){
-      if(stateTransformer==undefined){
-        return eventbus(name);
-      }
-      else {
-        return eventbus(name).map((action)=>{
-          action.state = stateTransformer(action);
-          return action;
-        });
-      }
+    var f =  function(name){
+      return eventbus(name);
     }
     f.dispatch = function(o){
-      eventbus.publish(o.type,Object.assign({state:state},o))
+      eventbus.publish(o.type,o);
     };
     f.setState = function(state){
       return freezer.set(state);
     };
     f.getState = function(){
-      return state;
+      return freezer.get();
     };
     return f;
   }

@@ -93,7 +93,6 @@ store("state").subscribe(render)
 But how do we listen to these actions at all?
 
 ```jsx
-//Update
 store("increment").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count+1);

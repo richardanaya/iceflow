@@ -127,7 +127,7 @@ store("increment").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count+1);
   state.set("isSaving",true);
-  saveCountToServer(state.count).then(function(){
+  saveCountToServer(state.count+1.then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })
@@ -137,7 +137,7 @@ store("decrement").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count-1);
   state.set("isSaving",true);
-  saveCountToServer(state.count).then(function(){
+  saveCountToServer(state.count-1).then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })
@@ -190,7 +190,7 @@ store("increment").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count+1);
   state.set("isSaving",true);
-  saveCountToServer(state.count).then(function(){
+  saveCountToServer(state.count+1).then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })
@@ -200,7 +200,7 @@ store("decrement").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count-1);
   state.set("isSaving",true);
-  saveCountToServer(state.count).then(function(){
+  saveCountToServer(state.count-1).then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })

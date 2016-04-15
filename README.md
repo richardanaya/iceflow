@@ -110,13 +110,13 @@ Using "set" notifies the store to update it's state with a new immutable value t
 Cool, now let's add our server functionality. We'll pretend we have a function that saves to a server and returns a promise to notify completion:
 
 ```jsx
-function saveCount(count){
+function saveCountToServer(count){
   fetch('/count', {
     method: 'POST',
     body: count
   })
 }
-saveCount(2).then(function(){
+saveCountToServer(2).then(function(){
   //saveing to server complete
 })
 ```
@@ -124,12 +124,11 @@ saveCount(2).then(function(){
 Let's modify our action handlers
 
 ```jsx
-//Update
 store("increment").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count+1);
   state.set("isSaving",true);
-  saveCount(state.count).then(function(){
+  saveCountToServer(state.count).then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })
@@ -139,14 +138,75 @@ store("decrement").subscribe(()=>{
   var state = store.getState();
   state.set("count",state.count-1);
   state.set("isSaving",true);
-  saveCount(state.count).then(function(){
+  saveCountToServer(state.count).then(function(){
     var state = store.getState();
     state.set("isSaving",false);
   })
 })
 ```
 
-Store state changes are easily notified now asynchronously.
+Store state changes are easily notified now asynchronously.  Let's check out the full example
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import IceFlow from 'iceflow';
+
+//MODEL
+var store = IceFlow({
+  count:0,
+  isSaving: false
+})
+
+//VIEW
+function HelloWorld (props) {
+  var spinner = props.state.isSaving?(<img src="spinner.png"></img>):null;
+  return (
+    <div>
+      <h1>Counter {spinner}</h1>
+      {props.state.count}
+      <button onClick={()=>store.dispatch({type:"increment"})}>+</button>
+      <button onClick={()=>store.dispatch({type:"decrement"})}>-</button>
+    </div>
+  );
+}
+
+function render(){
+  var state = store.getState();
+  ReactDOM.render(<HelloWorld state={state}/>, document.body);
+}
+
+render()
+store("state").subscribe(render)
+
+//UPDATE
+function saveCountToServer(count){
+  return fetch('/count', {
+    method: 'POST',
+    body: count
+  })
+}
+
+store("increment").subscribe(()=>{
+  var state = store.getState();
+  state.set("count",state.count+1);
+  state.set("isSaving",true);
+  saveCountToServer(state.count).then(function(){
+    var state = store.getState();
+    state.set("isSaving",false);
+  })
+})
+
+store("decrement").subscribe(()=>{
+  var state = store.getState();
+  state.set("count",state.count-1);
+  state.set("isSaving",true);
+  saveCountToServer(state.count).then(function(){
+    var state = store.getState();
+    state.set("isSaving",false);
+  })
+})
+```
 
 # Install
 
